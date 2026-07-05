@@ -1,0 +1,7 @@
+﻿namespace Catalog.Api.Dtos;
+
+public record CreateProductDto(
+    string Name,
+    decimal Price,
+    string Category
+);
