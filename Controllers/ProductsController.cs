@@ -57,4 +57,35 @@ public class ProductsController : ControllerBase
             new { id = product.Id },
             product);
     }
+
+    [HttpPut("{id:int}")]
+    public async Task<IActionResult> Update(int id, CreateProductDto dto)
+    {
+        var success = await _repository.UpdateAsync(
+            new Product(
+                id,
+                dto.Name,
+                dto.Price,
+                dto.Category));
+
+        if (!success)
+        {
+            return NotFound();
+        }
+
+        return NoContent();
+    }
+
+    [HttpDelete("{id:int}")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        var success = await _repository.DeleteAsync(id);
+
+        if (!success)
+        {
+            return NotFound();
+        }
+
+        return NoContent();
+    }
 }
