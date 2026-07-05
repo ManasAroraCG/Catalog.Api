@@ -36,4 +36,25 @@ public class ProductsController : ControllerBase
 
         return Ok(product);
     }
+
+    [HttpPost]
+    public async Task<ActionResult<Product>> Create(CreateProductDto dto)
+    {
+        if (string.IsNullOrWhiteSpace(dto.Name))
+        {
+            return BadRequest();
+        }
+
+        var product = await _repository.CreateAsync(
+            new Product(
+                0,
+                dto.Name,
+                dto.Price,
+                dto.Category));
+
+        return CreatedAtAction(
+            nameof(GetById),
+            new { id = product.Id },
+            product);
+    }
 }
