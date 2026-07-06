@@ -1,5 +1,5 @@
 using Catalog.Api.Repositories;
-
+using Catalog.Api.Options;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -10,6 +10,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddSingleton<IProductRepository, InMemoryProductRepository>();
+builder.Services.Configure<CatalogOptions>(
+    builder.Configuration);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

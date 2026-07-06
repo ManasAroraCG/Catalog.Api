@@ -2,25 +2,31 @@
 using Catalog.Api.Models;
 using Catalog.Api.Repositories;
 using Microsoft.AspNetCore.Mvc;
-
+using Catalog.Api.Options;
+using Microsoft.Extensions.Options;
 namespace Catalog.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
 public class ProductsController : ControllerBase
-{
+{   
     private readonly IProductRepository _repository;
+    private readonly CatalogOptions _options;
 
-    public ProductsController(IProductRepository repository)
+    public ProductsController(
+            IProductRepository repository,
+            IOptions<CatalogOptions> options)
     {
         _repository = repository;
+        _options = options.Value;
     }
+
 
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Product>>> GetAll()
     {
         var products = await _repository.GetAllAsync();
-
+        var pageSize = _options.DefaultPageSize;
         return Ok(products);
     }
 
