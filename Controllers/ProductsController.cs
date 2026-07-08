@@ -43,6 +43,19 @@ public class ProductsController : ControllerBase
         return Ok(product);
     }
 
+
+    [HttpGet("health")]
+    public IActionResult GetHealth()
+    {
+        var healthResponse = new
+        {
+            status = "Healthy",
+            timestamp = DateTime.UtcNow
+        };
+
+        return Ok(healthResponse);
+    }
+
     [HttpPost]
     public async Task<ActionResult<Product>> Create(CreateProductDto dto)
     {
